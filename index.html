@@ -48,6 +48,9 @@ if(!/^https:\/\/script\.google\.com\/(?:a\/\*\/)?macros\/s\/.+\/exec(?:\?.*)?$/.
 statusNode.textContent="Opening NOVA Command Center…";
 window.location.replace(COMMAND_CENTER_URL);
 }
+function showInstallHelp(){
+statusNode.textContent="To install NOVA: iPhone/iPad: open this page in Safari, tap Share → Add to Home Screen, enable Open as Web App, then tap Add. Android: use the browser menu (⋮) → Install app or Add to Home screen. Once installed, open NOVA from its home-screen icon to go directly to Command Center sign-in.";
+}
 if(isInstalledNOVA()){
 document.body.classList.add("installed-launch");
 statusNode.textContent="Opening NOVA Command Center…";
@@ -55,11 +58,22 @@ openButton.hidden=true;
 installButton.hidden=true;
 window.setTimeout(openCommandCenter,80);
 }else{
+installButton.hidden=false;
 openButton.addEventListener("click",openCommandCenter);
-window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;installButton.hidden=false;});
+window.addEventListener("beforeinstallprompt",event=>{
+event.preventDefault();
+installPrompt=event;
+installButton.textContent="INSTALL NOVA";
+});
 installButton.addEventListener("click",async()=>{
-if(!installPrompt){statusNode.textContent="On iPhone/iPad, use Safari Share → Add to Home Screen. On Android, use the browser menu → Install app.";return;}
-installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true;
+if(!installPrompt){showInstallHelp();return;}
+try{
+installPrompt.prompt();
+await installPrompt.userChoice;
+installPrompt=null;
+}catch(error){
+showInstallHelp();
+}
 });
 }
 if("serviceWorker" in navigator&&location.protocol==="https:"){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{if(!isInstalledNOVA())statusNode.textContent="NOVA can still open online; offline shell caching was unavailable.";}));}
