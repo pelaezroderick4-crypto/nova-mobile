@@ -33,11 +33,11 @@ button{display:flex;align-items:center;justify-content:center;width:100%;min-hei
 </main>
 <script>
 "use strict";
-const COMMAND_CENTER_URL="https://script.google.com/macros/s/AKfycbw6nyCmTRuBjjKxI59NOoTY0U3_TY5KpM7ChpwXVBCdlO6XukJ8RpGKDUYz3stBEJfGYQ/exec";
+const COMMAND_CENTER_URL="https://script.google.com/a/*/macros/s/AKfycbw6nyCmTRuBjjKxI59NOoTY0U3_TY5KpM7ChpwXVBCdlO6XukJ8RpGKDUYz3stBEJfGYQ/exec";
 const statusNode=document.getElementById("status"),openButton=document.getElementById("openButton"),installButton=document.getElementById("installButton");
 let installPrompt=null;
 function openCommandCenter(){
-if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(COMMAND_CENTER_URL)){statusNode.textContent="Setup required: add the current NOVA Command Center /exec URL to index.html before publishing.";return;}
+if(!/^https:\/\/script\.google\.com\/(?:a\/\*\/)?macros\/s\/.+\/exec(?:\?.*)?$/.test(COMMAND_CENTER_URL)){statusNode.textContent="Setup required: add the current NOVA Command Center /exec URL to index.html before publishing.";return;}
 window.location.assign(COMMAND_CENTER_URL);
 }
 openButton.addEventListener("click",openCommandCenter);
